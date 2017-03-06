@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job 
+metadata:
+  name: dotbench 
+  labels:
+    app: dotbench 
+spec:
+  template:
+    metadata:
+      labels:
+        app: dotbench
+    spec:
+      containers:
+      - name: dotbench
+        image: gcr.io/k8s-hybrid-cloud-demo/dotproduct:1.0
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "100Mi"
+            cpu: "1"
+      restartPolicy: Never
