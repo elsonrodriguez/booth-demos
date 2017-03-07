@@ -41,7 +41,7 @@ kubectl get clusters --context=federation
 
 We have 3 clusters, let's launch the task across all clusters
 ```
-#kubectl delete job dotproduct
+kubectl delete job dotproduct
 kubectl create -f dotproduct-rs.yaml --context=federation
 ```
 
