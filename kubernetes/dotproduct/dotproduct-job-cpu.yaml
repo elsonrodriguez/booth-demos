@@ -1,28 +1,30 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job 
 metadata:
-  name: dotbench 
+  name: dotproduct 
   labels:
-    app: dotbench 
+    app: dotproduct 
 spec:
-  replicas: 2
   template:
     metadata:
       labels:
-        app: dotbench
+        app: dotproduct
     spec:
       containers:
-      - name: dotbench
+      - name: dotproduct
         image: gcr.io/k8s-hybrid-cloud-demo/dotproduct:1.0
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do /app/dotproduct; echo 'done'; done;" ]
         imagePullPolicy: Always
         resources:
           limits:
             memory: "100Mi"
             cpu: "1"
+      restartPolicy: Never
       nodeSelector:
         node.alpha.kubernetes-incubator.io/nfd-cpuid-AVX512BW: "true"
         node.alpha.kubernetes-incubator.io/nfd-cpuid-AVX512CD: "true"
         node.alpha.kubernetes-incubator.io/nfd-cpuid-AVX512DQ: "true"
         node.alpha.kubernetes-incubator.io/nfd-cpuid-AVX512F: "true"
         node.alpha.kubernetes-incubator.io/nfd-cpuid-AVX512VL: "true"
-#      restartPolicy: Never
+
