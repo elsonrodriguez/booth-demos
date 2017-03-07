@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-federation
+  labels:
+    app: hello-federation
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    name: http
+  selector:
+    app: hello-federation
+  type: LoadBalancer
+  sessionAffinity: None

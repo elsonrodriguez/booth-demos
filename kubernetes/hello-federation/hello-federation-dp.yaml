@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet 
+metadata:
+  name: hello-federation
+  labels:
+    app: hello-federation
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hello-federation
+    spec:
+      containers:
+      - name: hello-federation
+        image: elsonrodriguez/hello-federation:1.3
+        imagePullPolicy: Always
+        env:
+          - name: LISTEN_PORT
+            value: "80"
+          - name: LISTEN_ADDRESS
+            value: "0.0.0.0"
+          - name: POD_NODENAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+        ports:
+          - containerPort: 80
+        resources:
+          limits:
+            memory: "50Mi"
+            cpu: ".1"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80 
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80 
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
