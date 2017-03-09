@@ -3,9 +3,10 @@
 ## Setup
 Switch to the right context
 ```
-kubectl use-context harbor0
+kubectl config use-context harbor0
 kubectl get cs
 kubectl get clusters
+kubectl get nodes
 ```
 
 ## Demo
@@ -40,7 +41,7 @@ kubectl get clusters --context=federation
 
 We have 3 clusters, let's launch the task across all clusters
 ```
-#kubectl delete job dotproduct
+kubectl delete job dotproduct
 kubectl create -f dotproduct-rs.yaml --context=federation
 ```
 
@@ -48,6 +49,7 @@ We can see that the job is pending on this cluster.
 
 ```
 kubectl get pods --context=harbor0
+kubectl describe pod dotproduct-xxxx
 ```
 
 Let's take a look at how the CPU targeting works
@@ -66,6 +68,7 @@ Let's see how things are doing now
 kubectl get pods --context=harbor0
 kubectl get pods --context=aws
 kubectl get pods --context=gke
+kubectl logs dotproduct-xxxx --context=gke
 ```
 
 Awesome! Kubernetes has noticed that pods have been pending for too long, so it naturally gravitated the pods to where they would run!
