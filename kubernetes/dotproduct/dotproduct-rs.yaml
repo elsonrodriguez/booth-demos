@@ -20,7 +20,7 @@ spec:
         resources:
           limits:
             memory: "100Mi"
-            cpu: "1"
+            cpu: ".25"
       nodeSelector:
         node.alpha.kubernetes-incubator.io/nfd-cpuid-AVX512BW: "true"
         node.alpha.kubernetes-incubator.io/nfd-cpuid-AVX512CD: "true"
